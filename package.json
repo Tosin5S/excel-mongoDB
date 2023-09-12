@@ -1,7 +1,7 @@
 {
   "name": "excel-upload",
   "version": "1.0.0",
-  "description": "A Node.js app for uploading Excel files and and updating MongoDB",
+  "description": "A Node.js app for uploading Excel files and updating MongoDB",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

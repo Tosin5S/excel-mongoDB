@@ -16,8 +16,14 @@ app.use(cors(corsOptions));
 // DB Config
 const dbConfig =require("./config/keys").mongoURI;
 
+// Define the initial function
+function initial() {
+  // Your initialization code here
+  console.log("Initialization code executed");
+}
+
 // Connect to MongoDB
-db.mongoose
+mongoose
    .connect(
       dbConfig,
       {
@@ -26,7 +32,7 @@ db.mongoose
       }
    )
    .then(() => {
-      console.log("MongoDB successfully connected")
+      console.log("MongoDB successfully connected");
       initial();
    })
    .catch(err => {

@@ -48,25 +48,27 @@ app.get('/', (req, res) => {
 });
    
 app.post('/upload', upload.single('file'), async (req, res) => {
-// The uploaded file is stored in req.file
-const file = req.file;
+  // The uploaded file is stored in req.file
+  const file = req.file;
 
-// Use mongo-xlsx to parse the Excel file
-const model = mongoXlsx.xlsxToModel(file.path);
-
-// Extract the data frome the model
-const data = model[0].data;
-
-// Insert the data into MongoDB
-Transaction.insertMany(data, (err) => {
-  if (err) {
-    console.error('Error inserting data into MongoDB:', err);
-    res.status(500).send('Internal server error');
-  } else {
-    res.send('File uploaded and data inserted into MongoDB successfully');
-  }
+  // Read Excel and convert to MongoData
+  mongoXlsx.xlsx2MongoData(file.path, null, async function (err, mongoData) {
+    if (err) {
+      console.error('Error converting Excel to MongoData:', err);
+      res.status(500).send('Internal server error');
+    } else {
+      try {
+        // Insert the data into MongoDB using await
+        await Transaction.insertMany(mongoData);
+        res.send('File uploaded and data inserted into MongoDB successfully');
+      } catch (error) {
+        console.error('Error inserting data into MongoDB:', error);
+        res.status(500).send('Internal server error');
+      }
+    }
+  });
 });
-});
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });

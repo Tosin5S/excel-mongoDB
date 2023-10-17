@@ -4,7 +4,7 @@
   "description": "A Node.js app for uploading Excel files and updating MongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tosin5S",
@@ -16,5 +16,8 @@
     "mongoose": "^7.5.1",
     "multer": "^1.4.5-lts.1",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

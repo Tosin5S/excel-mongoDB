@@ -16,6 +16,9 @@ app.use(cors(corsOptions));
 // DB Config
 const dbConfig =require("./config/keys").mongoURI;
 
+// Import the Transaction model
+const Transaction = require('./models/transactionsSchema');
+
 // Define the initial function
 function initial() {
   // Your initialization code here
@@ -39,33 +42,14 @@ mongoose
       console.error("connection error", err);
       process.exit();
    });
-   
-// Define a schema for transactions 
-const transactionsSchema = new mongoose.Schema({
-    // Define your transaction fields here
-})
-
-const Transaction = mongoose.model('Transaction', transactionsSchema);
  
-
-
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+   
 app.post('/upload', upload.single('file'), async (req, res) => {
-  // Handle the uploaded file here
-//  const file = req.file;
-//  const workbook = xlsx.readFile(file.path);
-//  const sheetName = workbook.SheetNames[0];
-//  const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-  // Process the Excel file and update MongoDB
-//  try {
-    // Insert the data into MongoDB
-//    await Transaction.insertMany(data);
-//    res.send('File uploaded and data inserted into MongoDB successfully.');
-//  } catch (error) {
-//        console.error('Error inserting data into MongoDB:', error);
-//        res.status(500).send('Internal server error');
-//    }
-// });
+// The uploaded file is stored in req.file
+const file = req.file;
 
 // Use mongo-xlsx to parse the Excel file
 const model = mongoXlsx.xlsxToModel(file.path);
